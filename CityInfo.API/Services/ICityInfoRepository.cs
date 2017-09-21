@@ -5,17 +5,12 @@ namespace CityInfo.API.Services
 {
     public interface ICityInfoRepository
     {
-        bool CityExists(int cityId);
-
         //return IQueryable if you want to use LINQ on the result
         IEnumerable<City> GetCities();
-        City GetCity(int cityId, bool includePointsOfInterest);
+        City GetCity(int cityId);
 
-        IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId);
-        PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId);
-
-        void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest);
-        void DeletePointOfInterest(PointOfInterest pointOfInterest);
+        void AddCity(City city);
+        void DeleteCity(City city);
         bool Save();
     }
 }

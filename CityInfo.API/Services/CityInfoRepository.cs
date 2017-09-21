@@ -13,46 +13,24 @@ namespace CityInfo.API.Services
             _context = context;
         }
 
-        public bool CityExists(int cityId)
-        {
-            return _context.Cities.Any(c => c.Id == cityId);
-        }
-
         public IEnumerable<City> GetCities()
         {
             return _context.Cities.OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCity(int cityId, bool includePointsOfInterest)
+        public City GetCity(int cityId)
         {
-            if (includePointsOfInterest)
-            {
-                return _context.Cities.Include(c => c.PointsOfInterest)
-                    .Where(c => c.Id == cityId).FirstOrDefault();
-            }
-
             return _context.Cities.Where(c => c.Id == cityId).FirstOrDefault();
         }
 
-        public PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId)
+        public void AddCity(City city)
         {
-            return _context.PointsOfInterest.Where(p => p.CityId == cityId && p.Id == pointOfInterestId).FirstOrDefault();
+            _context.Cities.Add(city);
         }
 
-        public IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId)
+        public void DeleteCity(City city)
         {
-            return _context.PointsOfInterest.Where(p => p.CityId == cityId).ToList();
-        }
-
-        public void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
-        {
-            var city = GetCity(cityId, false);
-            city.PointsOfInterest.Add(pointOfInterest);
-        }
-
-        public void DeletePointOfInterest(PointOfInterest pointOfInterest)
-        {
-            _context.PointsOfInterest.Remove(pointOfInterest);
+            _context.Cities.Remove(city);
         }
 
         public bool Save()
